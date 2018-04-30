@@ -2,6 +2,8 @@
 
 * [ ] full TDD for recent code
 
+* [ ] Distribution of Bot: single-JAR or system/ repo?
+
 * [X] changes in "Cannot Merge" state should prevent build from being launched, and be reported
 
 * [ ] check for +1 Verified Vote, and abort if not present
