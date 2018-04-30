@@ -1,8 +1,20 @@
 # This file *HAS* to be sorted by project dependency order
 # so that the integration-multipatch-test job does the right thing.
 
+odlparent
 infrautils
+yangtools
 mdsal
 controller
+aaa
+netconf
+daexim
+bgpcep
+ovsdb
+neutron
+lispflowmapping
+openflowplugin
+coe
 genius
+sfc
 netvirt
