@@ -1,3 +1,4 @@
+* [ ] Optimization: skip all projects before the one with the first actual change!
 
 * [ ] full TDD for recent code
 
