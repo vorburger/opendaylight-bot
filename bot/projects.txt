@@ -1,0 +1,8 @@
+# This file *HAS* to be sorted by project dependency order
+# so that the integration-multipatch-test job does the right thing.
+
+infrautils
+mdsal
+controller
+genius
+netvirt

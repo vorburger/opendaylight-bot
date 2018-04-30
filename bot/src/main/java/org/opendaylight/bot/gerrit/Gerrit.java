@@ -7,6 +7,7 @@
  */
 package org.opendaylight.bot.gerrit;
 
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
@@ -37,11 +38,14 @@ public class Gerrit {
     public List<ChangeInfo> allChangesOnTopic(String topicName) throws BotException {
         String query = "topic:" + topicName;
         try {
-            // .withOption(ListChangesOption...)
-            return gerritApi.changes().query(query).get();
+            return gerritApi.changes().query(query).withOption(ListChangesOption.CURRENT_REVISION).get();
         } catch (RestApiException e) {
             throw new BotException(gerritBaseURI + " query(" + query + ") failed", e);
         }
+    }
+
+    public URI getBaseURI() {
+        return gerritBaseURI;
     }
 
 }
