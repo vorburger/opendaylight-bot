@@ -34,6 +34,9 @@ public class MainCLI {
         if (command.equalsIgnoreCase("topics")) {
             // TODO print topic details
             bot.topics();
+        } else if (command.equalsIgnoreCase("topic") && args.length == 2) {
+            String topicName = args[1];
+            bot.topic(topicName);
         } else if (command.equalsIgnoreCase("build") && args.length == 2) {
             String topicName = args[1];
             bot.build(topicName);

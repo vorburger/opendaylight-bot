@@ -54,9 +54,21 @@ public class MainCLITest {
     @Test public void testTopic() {
         Bot bot = Mockito.mock(Bot.class);
         MainCLI cli = new MainCLI(bot);
+        cli.run(new String[] { "topic", "CONTROLLER-1802" });
+        Mockito.verify(bot).topic("CONTROLLER-1802");
     }
 
-    // TODO add mockito dependency: @Test public void testTopics() {
+    @Test public void testBuild() {
+        Bot bot = Mockito.mock(Bot.class);
+        MainCLI cli = new MainCLI(bot);
+        cli.run(new String[] { "build", "CONTROLLER-1802" });
+        Mockito.verify(bot).build("CONTROLLER-1802");
+    }
 
-    // TODO @Test public void testBuild() {
+    @Test public void testTopics() {
+        Bot bot = Mockito.mock(Bot.class);
+        MainCLI cli = new MainCLI(bot);
+        cli.run(new String[] { "topics" });
+        Mockito.verify(bot).topics();
+    }
 }

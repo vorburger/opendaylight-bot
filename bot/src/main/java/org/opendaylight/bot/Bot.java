@@ -22,4 +22,7 @@ class Bot {
     void build(String topicName) {
     }
 
+    void topic(String topicName) {
+    }
+
 }
