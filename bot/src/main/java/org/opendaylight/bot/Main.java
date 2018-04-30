@@ -43,7 +43,9 @@ public class Main {
     }
 
     void printUsage() {
-        System.err.println("USAGE: topics | build <topic>");
+        // TODO System.err.println("USAGE: topics");
+        System.err.println("USAGE: topic <topic>");
+        // TODO System.err.println("USAGE: build <topic>");
     }
 
 }
