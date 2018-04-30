@@ -1,9 +1,10 @@
 # This file *HAS* to be sorted by project dependency order
 # so that the integration-multipatch-test job does the right thing.
+# The non-SNAPSHOT integrated projects need to be commented out.
 
-odlparent
+# odlparent
 infrautils
-yangtools
+# yangtools
 mdsal
 controller
 aaa
