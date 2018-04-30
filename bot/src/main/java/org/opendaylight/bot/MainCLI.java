@@ -13,16 +13,16 @@ package org.opendaylight.bot;
  * @author Michael Vorburger.ch
  */
 @SuppressWarnings("checkstyle:RegexpSingleLineJava") // duh, yeah; it's main!
-public class Main {
+public class MainCLI {
 
     private final Bot bot;
 
-    Main(Bot bot) {
+    MainCLI(Bot bot) {
         this.bot = bot;
     }
 
     public static void main(String[] args) {
-        new Main(new Bot()).run(args);
+        new MainCLI(new Bot()).run(args);
     }
 
     void run(String[] args) {

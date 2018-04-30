@@ -11,13 +11,14 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Unit Test for {@link Main}.
+ * Unit Test for {@link MainCLI}.
  *
  * @author Michael Vorburger.ch
  */
-public class MainTest {
+public class MainCLITest {
 
     @Test public void testUsageIfNoArguments() {
         checkUsageCalled();
@@ -31,19 +32,28 @@ public class MainTest {
         checkUsageCalled("build");
     }
 
+    @Test public void testUsageIfTopicWithoutArgument() {
+        checkUsageCalled("topic");
+    }
+
     private static void checkUsageCalled(String... args) {
         AtomicBoolean usageCalled = new AtomicBoolean();
 
-        Main main = new Main(null) {
+        MainCLI cli = new MainCLI(null) {
             @Override
             void printUsage() {
                 usageCalled.set(true);
             }
         };
 
-        main.run(new String[0]);
+        cli.run(new String[0]);
 
         assertThat(usageCalled.get()).isTrue();
+    }
+
+    @Test public void testTopic() {
+        Bot bot = Mockito.mock(Bot.class);
+        MainCLI cli = new MainCLI(bot);
     }
 
     // TODO add mockito dependency: @Test public void testTopics() {
