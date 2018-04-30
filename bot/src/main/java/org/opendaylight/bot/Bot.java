@@ -51,7 +51,7 @@ class Bot {
 
     void build(String topicName) throws BotException {
         List<ChangeInfo> changes = gerrit.allChangesOnTopic(topicName);
-        printChanges(changes, "Topic to be built " + topicName);
+        printChanges(changes, "Build " + gerrit.getBaseURI() + "#/q/topic:" + topicName + " ");
 
         // TODO why NPE for topicName = CONTROLLER-1802 with 3x MERGED and 2x NEW?
         // if (changes.stream().filter(change -> !change.mergeable).findFirst().isPresent()) {
