@@ -20,23 +20,23 @@ import org.mockito.Mockito;
  */
 public class MainCLITest {
 
-    @Test public void testUsageIfNoArguments() {
+    @Test public void testUsageIfNoArguments() throws BotException {
         checkUsageCalled();
     }
 
-    @Test public void testUsageIfUnknownArguments() {
+    @Test public void testUsageIfUnknownArguments() throws BotException {
         checkUsageCalled("yolo");
     }
 
-    @Test public void testUsageIfBuildWithoutArgument() {
+    @Test public void testUsageIfBuildWithoutArgument() throws BotException {
         checkUsageCalled("build");
     }
 
-    @Test public void testUsageIfTopicWithoutArgument() {
+    @Test public void testUsageIfTopicWithoutArgument() throws BotException {
         checkUsageCalled("topic");
     }
 
-    private static void checkUsageCalled(String... args) {
+    private static void checkUsageCalled(String... args) throws BotException {
         AtomicBoolean usageCalled = new AtomicBoolean();
 
         MainCLI cli = new MainCLI(null) {
@@ -51,21 +51,21 @@ public class MainCLITest {
         assertThat(usageCalled.get()).isTrue();
     }
 
-    @Test public void testTopic() {
+    @Test public void testTopic() throws BotException {
         Bot bot = Mockito.mock(Bot.class);
         MainCLI cli = new MainCLI(bot);
         cli.run(new String[] { "topic", "CONTROLLER-1802" });
         Mockito.verify(bot).topic("CONTROLLER-1802");
     }
 
-    @Test public void testBuild() {
+    @Test public void testBuild() throws BotException {
         Bot bot = Mockito.mock(Bot.class);
         MainCLI cli = new MainCLI(bot);
         cli.run(new String[] { "build", "CONTROLLER-1802" });
         Mockito.verify(bot).build("CONTROLLER-1802");
     }
 
-    @Test public void testTopics() {
+    @Test public void testTopics() throws BotException {
         Bot bot = Mockito.mock(Bot.class);
         MainCLI cli = new MainCLI(bot);
         cli.run(new String[] { "topics" });

@@ -7,6 +7,9 @@
  */
 package org.opendaylight.bot;
 
+import java.net.URI;
+import org.opendaylight.bot.gerrit.Gerrit;
+
 /**
  * Bot CLI with main method.
  *
@@ -21,11 +24,12 @@ public class MainCLI {
         this.bot = bot;
     }
 
-    public static void main(String[] args) {
-        new MainCLI(new Bot()).run(args);
+    public static void main(String[] args) throws BotException {
+        // TODO read Gerrit URL from a BotConfiguration model
+        new MainCLI(new Bot(new Gerrit(URI.create("https://git.opendaylight.org/gerrit/")))).run(args);
     }
 
-    void run(String[] args) {
+    void run(String[] args) throws BotException {
         if (args.length == 0) {
             printUsage();
             return;
