@@ -9,6 +9,7 @@ package org.opendaylight.bot.odl;
 
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -38,6 +39,7 @@ public class MultipatchJob {
      * Constructs the String used in the PATCHES_TO_BUILD parameter of an
      * OpenDaylight integration-multipatch-test job.
      */
+    @SuppressFBWarnings("UC_USELESS_OBJECT") // apparently a bug in FindBugs; map2 is not useless, of course
     public String getPatchesToBuildString(Collection<ChangeInfo> changes) throws BotException {
         // TODO why NPE for topicName = CONTROLLER-1802 with 3x MERGED and 2x NEW?
         // if (changes.stream().filter(change -> !change.mergeable).findFirst().isPresent()) {
