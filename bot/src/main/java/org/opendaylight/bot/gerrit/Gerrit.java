@@ -48,4 +48,7 @@ public class Gerrit {
         return gerritBaseURI;
     }
 
+    public static String getCurrentRevisionReference(ChangeInfo change) {
+        return change.revisions.get(change.currentRevision).ref;
+    }
 }

@@ -7,13 +7,10 @@
  */
 package org.opendaylight.bot;
 
-import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.opendaylight.bot.gerrit.Gerrit;
+import org.opendaylight.bot.odl.MultipatchJob;
 import org.opendaylight.infrautils.utils.TablePrinter;
 
 /**
@@ -24,19 +21,21 @@ import org.opendaylight.infrautils.utils.TablePrinter;
 @SuppressWarnings("checkstyle:RegexpSingleLineJava") // System out
 class Bot {
 
-    private final Projects projects;
+    // private final Projects projects;
     private final Gerrit gerrit;
+    private final MultipatchJob multipatchJob;
 
     Bot(Gerrit gerrit, Projects projects) {
-        this.projects = projects;
+        // this.projects = projects;
         this.gerrit = gerrit;
+        this.multipatchJob = new MultipatchJob(projects);
     }
 
     void topic(String topicName) throws BotException {
         printChanges(gerrit.allChangesOnTopic(topicName), gerrit.getBaseURI() + "#/q/topic:" + topicName + " ");
     }
 
-    private void printChanges(List<ChangeInfo> changes, String title) {
+    private static void printChanges(List<ChangeInfo> changes, String title) {
         TablePrinter tablePrinter = new TablePrinter(0);
         tablePrinter.setTitle(title);
         // TODO add V[erified] vote information
@@ -44,7 +43,7 @@ class Bot {
                 "Current Rev Ref");
         for (ChangeInfo change : changes) {
             tablePrinter.addRow(change.status, change._number, change.mergeable, change.subject, change.project,
-                    change.branch, getCurrentRevisionReference(change));
+                    change.branch, Gerrit.getCurrentRevisionReference(change));
         }
         System.out.println(tablePrinter.toString());
     }
@@ -52,54 +51,11 @@ class Bot {
     void build(String topicName) throws BotException {
         List<ChangeInfo> changes = gerrit.allChangesOnTopic(topicName);
         printChanges(changes, "Build " + gerrit.getBaseURI() + "#/q/topic:" + topicName + " ");
-
-        // TODO why NPE for topicName = CONTROLLER-1802 with 3x MERGED and 2x NEW?
-        // if (changes.stream().filter(change -> !change.mergeable).findFirst().isPresent()) {
-        //    System.err.println("There are un-mergeable changes with conflicts which need to be manually resolved!");
-        // }
-
-        // TODO check for +1 Verified Vote, and abort if not present
-
-        Map<String, List<String>> map = projects.getNewMultimap();
-
-        List<String> unknownProjects = changes.stream()
-                .filter(change -> !map.containsKey(change.project))
-                .map(change -> change.project).distinct().collect(Collectors.toList());
-        if (!unknownProjects.isEmpty()) {
-            throw new BotException("Unknown projects: " + unknownProjects);
-        }
-
-        changes.stream()
-            .filter(change -> change.status.equals(ChangeStatus.NEW))
-            .forEach(change -> map.get(change.project).add(getCurrentRevisionReference(change)));
-
-        StringBuilder patchesToBuild = new StringBuilder();
-        map.forEach((project, refs) -> {
-            if (patchesToBuild.length() > 0) {
-                patchesToBuild.append(",");
-            }
-            patchesToBuild.append(project);
-            if (!refs.isEmpty()) {
-                patchesToBuild.append(':');
-                Iterator<String> iterator = refs.iterator();
-                patchesToBuild.append(iterator.next());
-                while (iterator.hasNext()) {
-                    patchesToBuild.append(",");
-                    patchesToBuild.append(project);
-                    patchesToBuild.append(':');
-                    patchesToBuild.append(iterator.next());
-                }
-            }
-        });
-        System.out.println(patchesToBuild.toString());
+        System.out.println(multipatchJob.getPatchesToBuildString(changes));
     }
 
     // TODO List<Topic>
     void topics() {
-    }
-
-    private String getCurrentRevisionReference(ChangeInfo change) {
-        return change.revisions.get(change.currentRevision).ref;
     }
 
 }
