@@ -19,5 +19,6 @@
     <module>parent</module>
     <!-- <module>model</module> -->
     <module>bot</module>
+    <module>spring</module>
   </modules>
 </project>
