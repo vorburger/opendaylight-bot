@@ -49,7 +49,7 @@ public class BotServlet extends HttpServlet {
 
         try {
             if (!Strings.isNullOrEmpty(topicName)) {
-                bot.topic(topicName);
+                out.println(bot.build(topicName));
             } else {
                 out.println("USAGE: /bot?topic={managedTopicName}");
             }
