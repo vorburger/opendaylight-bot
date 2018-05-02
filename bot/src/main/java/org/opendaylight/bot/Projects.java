@@ -11,7 +11,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.io.Files;
-import com.google.common.io.LineProcessor;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Projects ordering.
@@ -30,23 +30,7 @@ public class Projects {
     private final ImmutableList<String> projectsInOrderOfDependencies;
 
     public Projects(File file) throws IOException {
-        this(Files.asCharSource(file, StandardCharsets.US_ASCII).readLines(new LineProcessor<List<String>>() {
-
-            List<String> lines = new ArrayList<>();
-
-            @Override
-            public List<String> getResult() {
-                return lines;
-            }
-
-            @Override
-            public boolean processLine(String line) throws IOException {
-                if (!line.trim().startsWith("#")) {
-                    lines.add(line);
-                }
-                return true;
-            }
-        }));
+        this(Files.asCharSource(file, StandardCharsets.US_ASCII).readLines());
     }
 
     public Projects(String... projectsInOrderOfDependencies) {
@@ -54,7 +38,8 @@ public class Projects {
     }
 
     public Projects(List<String> projectsInOrderOfDependencies) {
-        this.projectsInOrderOfDependencies = ImmutableList.copyOf(projectsInOrderOfDependencies);
+        this.projectsInOrderOfDependencies = ImmutableList.copyOf(projectsInOrderOfDependencies.stream()
+                .filter(line -> !(line.trim().startsWith("#") || line.trim().isEmpty())).collect(Collectors.toList()));
     }
 
     public List<String> getProjects() {
