@@ -28,10 +28,15 @@ public class ApplicationTest {
     @Test public void contextLoads() {
     }
 
-    @Test public void httpGetSlashBot() {
+    @Test public void httpGetSlashBotUsage() {
         ResponseEntity<String> entity = this.restTemplate.getForEntity("/bot", String.class);
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(entity.getBody()).isEqualTo("Hello World!\n");
+        assertThat(entity.getBody()).startsWith("USAGE");
+    }
+
+    @Test public void httpGetTopic() {
+        ResponseEntity<String> entity = this.restTemplate.getForEntity("/bot?topic=CONTROLLER-1802", String.class);
+        assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
 }

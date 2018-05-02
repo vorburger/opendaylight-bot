@@ -7,6 +7,7 @@
  */
 package org.opendaylight.bot.spring;
 
+import org.opendaylight.bot.Bot;
 import org.opendaylight.bot.spring.web.BotServlet;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +22,12 @@ import org.springframework.context.annotation.Configuration;
 public class BotSpringConfiguration {
 
     @Bean
-    public ServletRegistrationBean<BotServlet> exampleServletBean() {
-        return new ServletRegistrationBean<>(new BotServlet(), "/bot/*");
+    public Bot bot() throws Exception {
+        return new Bot();
+    }
+
+    @Bean
+    public ServletRegistrationBean<BotServlet> exampleServletBean(Bot bot) {
+        return new ServletRegistrationBean<>(new BotServlet(bot), "/bot/*");
     }
 }
