@@ -8,6 +8,9 @@
 package org.opendaylight.bot;
 
 import com.google.gerrit.extensions.common.ChangeInfo;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import org.opendaylight.bot.gerrit.Gerrit;
 import org.opendaylight.bot.odl.MultipatchJob;
@@ -18,8 +21,7 @@ import org.opendaylight.infrautils.utils.TablePrinter;
  *
  * @author Michael Vorburger.ch
  */
-@SuppressWarnings("checkstyle:RegexpSingleLineJava") // System out
-class Bot {
+public class Bot {
 
     // private final Projects projects;
     private final Gerrit gerrit;
@@ -31,27 +33,33 @@ class Bot {
         this.multipatchJob = new MultipatchJob(projects);
     }
 
-    void topic(String topicName) throws BotException {
-        printChanges(gerrit.allChangesOnTopic(topicName), gerrit.getBaseURI() + "#/q/topic:" + topicName + " ");
+    public Bot() throws IOException {
+        this(new Gerrit(URI.create("https://git.opendaylight.org/gerrit/")), new Projects(new File("projects.txt")));
     }
 
-    private static void printChanges(List<ChangeInfo> changes, String title) {
+    String topic(String topicName) throws BotException {
+        return getChangesAsTable(gerrit.allChangesOnTopic(topicName),
+                gerrit.getBaseURI() + "#/q/topic:" + topicName + " ");
+    }
+
+    private static String getChangesAsTable(List<ChangeInfo> changes, String title) {
         TablePrinter tablePrinter = new TablePrinter(0);
         tablePrinter.setTitle(title);
         // TODO add V[erified] vote information
         tablePrinter.setColumnNames("Status", "Change", "Mergeable?", "Subject", "Project", "Branch",
-                "Current Rev Ref");
+                "Current Rev Ref", "Commit", "Parent/s");
         for (ChangeInfo change : changes) {
             tablePrinter.addRow(change.status, change._number, change.mergeable, change.subject, change.project,
-                    change.branch, Gerrit.getCurrentRevisionReference(change));
+                    change.branch, Gerrit.getCurrentRevisionReference(change), Gerrit.getCurrentCommit(change),
+                    Gerrit.getCurrentParentCommit(change));
         }
-        System.out.println(tablePrinter.toString());
+        return tablePrinter.toString();
     }
 
-    void build(String topicName) throws BotException {
+    String build(String topicName) throws BotException {
         List<ChangeInfo> changes = gerrit.allChangesOnTopic(topicName);
-        printChanges(changes, "Build " + gerrit.getBaseURI() + "#/q/topic:" + topicName + " ");
-        System.out.println(multipatchJob.getPatchesToBuildString(changes));
+        return getChangesAsTable(changes, "Build " + gerrit.getBaseURI() + "#/q/topic:" + topicName + " ") + "\n"
+                + multipatchJob.getPatchesToBuildString(changes);
     }
 
     // TODO List<Topic>
