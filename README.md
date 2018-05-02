@@ -1,5 +1,7 @@
 # opendaylight-bot
 
+[![Build Status](https://travis-ci.org/vorburger/opendaylight-bot.svg?branch=master)](https://travis-ci.org/vorburger/opendaylight-bot)
+
 The ODL Bot is a software delivery automation tool. It originated in the OpenDaylight.org FLOSS SDN community,
 but could be used by other open-source communities (and for in-house proprietary code) as well.  Its features are:
 
