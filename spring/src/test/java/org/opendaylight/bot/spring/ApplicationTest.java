@@ -21,10 +21,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)// (classes = BotSpringConfiguration.class)
-public class ApplicationTests {
+public class ApplicationTest {
 
-    @Autowired
-    private TestRestTemplate restTemplate;
+    @Autowired TestRestTemplate restTemplate;
 
     @Test public void contextLoads() {
     }
