@@ -29,12 +29,12 @@ public class MultipatchJobTest {
     // TODO @Test public void testNoChanges() etc. ...
 
     @Test public void testFormat() throws BotException {
-        MultipatchJob multipatchJob = new MultipatchJob(new Projects("p1", "p2", "p3"));
+        MultipatchJob multipatchJob = new MultipatchJob(new Projects("p1", "p2", "p3", "p4"));
         assertThat(multipatchJob.getPatchesToBuildString(newArrayList(
-                newChange("p3", NEW, "refs/changes/62/69362/30"),
+                newChange("p4", NEW, "refs/changes/62/69362/30"),
                 newChange("p2", NEW, "refs/changes/30/23973/48"),
-                newChange("p3", NEW, "refs/changes/40/38973/60"))))
-            .isEqualTo("p1,p2:30/23973/48,p3:62/69362/30:40/38973/60");
+                newChange("p4", NEW, "refs/changes/40/38973/60"))))
+            .isEqualTo("p2:30/23973/48,p3,p4:62/69362/30:40/38973/60");
     }
 
     private static ChangeInfo newChange(String projectName, ChangeStatus status, String ref) {

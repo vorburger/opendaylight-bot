@@ -11,6 +11,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,10 +46,10 @@ public class MultipatchJob {
 
         // TODO check for +1 Verified Vote, and abort if not present
 
-        Map<String, List<String>> map = projects.getNewMultimap();
+        Map<String, List<String>> map1 = projects.getNewMultimap();
 
         List<String> unknownProjects = changes.stream()
-                .filter(change -> !map.containsKey(change.project))
+                .filter(change -> !map1.containsKey(change.project))
                 .map(change -> change.project).distinct().collect(Collectors.toList());
         if (!unknownProjects.isEmpty()) {
             throw new BotException("Unknown projects: " + unknownProjects);
@@ -56,10 +57,19 @@ public class MultipatchJob {
 
         changes.stream()
             .filter(change -> change.status.equals(ChangeStatus.NEW))
-            .forEach(change -> map.get(change.project).add(Gerrit.getCurrentRevisionReference(change)));
+            .forEach(change -> map1.get(change.project).add(Gerrit.getCurrentRevisionReference(change)));
+
+        Map<String, List<String>> map2 = new LinkedHashMap<>(map1); // must preserve order!
+        for (Map.Entry<String, List<String>> entry : map1.entrySet()) {
+            if (entry.getValue().isEmpty()) {
+                map2.remove(entry.getKey());
+            } else {
+                break;
+            }
+        }
 
         StringBuilder patchesToBuild = new StringBuilder();
-        map.forEach((project, refs) -> {
+        map2.forEach((project, refs) -> {
             if (patchesToBuild.length() > 0) {
                 patchesToBuild.append(",");
             }
