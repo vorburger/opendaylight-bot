@@ -22,8 +22,6 @@ public class BotSpringConfiguration {
 
     @Bean
     public ServletRegistrationBean<BotServlet> exampleServletBean() {
-        ServletRegistrationBean<BotServlet> bean = new ServletRegistrationBean<>(new BotServlet(), "/bot/*");
-        bean.setLoadOnStartup(1);
-        return bean;
+        return new ServletRegistrationBean<>(new BotServlet(), "/bot/*");
     }
 }
