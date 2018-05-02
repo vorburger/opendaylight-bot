@@ -7,10 +7,11 @@
  */
 package org.opendaylight.bot;
 
+import com.google.common.io.Resources;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.opendaylight.bot.gerrit.Gerrit;
 import org.opendaylight.bot.odl.MultipatchJob;
@@ -34,10 +35,12 @@ public class Bot {
     }
 
     public Bot() throws IOException {
-        this(new Gerrit(URI.create("https://git.opendaylight.org/gerrit/")), new Projects(new File("projects.txt")));
+        // TODO remove hard-coded ODL stuff and make configurable
+        this(new Gerrit(URI.create("https://git.opendaylight.org/gerrit/")),
+             new Projects(Resources.readLines(Resources.getResource("odl/projects.txt"), StandardCharsets.US_ASCII)));
     }
 
-    String topic(String topicName) throws BotException {
+    public String topic(String topicName) throws BotException {
         return getChangesAsTable(gerrit.allChangesOnTopic(topicName),
                 gerrit.getBaseURI() + "#/q/topic:" + topicName + " ");
     }
