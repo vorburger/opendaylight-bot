@@ -48,10 +48,10 @@ public class MultipatchJob {
 
         // TODO check for +1 Verified Vote, and abort if not present
 
-        Map<String, List<String>> map1 = projects.getNewMultimap();
+        Map<String, List<String>> unfilteredMap = projects.getNewMultimap();
 
         List<String> unknownProjects = changes.stream()
-                .filter(change -> !map1.containsKey(change.project))
+                .filter(change -> !unfilteredMap.containsKey(change.project))
                 .map(change -> change.project).distinct().collect(Collectors.toList());
         if (!unknownProjects.isEmpty()) {
             throw new BotException("Unknown projects: " + unknownProjects);
@@ -59,19 +59,19 @@ public class MultipatchJob {
 
         changes.stream()
             .filter(change -> change.status.equals(ChangeStatus.NEW))
-            .forEach(change -> map1.get(change.project).add(Gerrit.getCurrentRevisionReference(change)));
+            .forEach(change -> unfilteredMap.get(change.project).add(Gerrit.getCurrentRevisionReference(change)));
 
-        Map<String, List<String>> map2 = new LinkedHashMap<>(map1); // must preserve order!
-        for (Map.Entry<String, List<String>> entry : map1.entrySet()) {
+        Map<String, List<String>> filteredMap = new LinkedHashMap<>(unfilteredMap); // must preserve order!
+        for (Map.Entry<String, List<String>> entry : unfilteredMap.entrySet()) {
             if (entry.getValue().isEmpty()) {
-                map2.remove(entry.getKey());
+                filteredMap.remove(entry.getKey());
             } else {
                 break;
             }
         }
 
         StringBuilder patchesToBuild = new StringBuilder();
-        map2.forEach((project, refs) -> {
+        filteredMap.forEach((project, refs) -> {
             if (patchesToBuild.length() > 0) {
                 patchesToBuild.append(",");
             }
