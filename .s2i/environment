@@ -1,0 +1,5 @@
+MAVEN_ARGS_APPEND=-s .travis.settings.xml
+
+ARTIFACT_DIR=spring/target/
+
+ARTIFACT_COPY_ARGS=org.opendaylight.bot.spring.jar
