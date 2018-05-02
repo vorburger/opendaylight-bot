@@ -69,8 +69,6 @@ public class MultipatchJob {
                 Iterator<String> iterator = refs.iterator();
                 patchesToBuild.append(iterator.next().substring(REF_CHANGES_PREFIX.length()));
                 while (iterator.hasNext()) {
-                    patchesToBuild.append(",");
-                    patchesToBuild.append(project);
                     patchesToBuild.append(':');
                     patchesToBuild.append(iterator.next().substring(REF_CHANGES_PREFIX.length()));
                 }
