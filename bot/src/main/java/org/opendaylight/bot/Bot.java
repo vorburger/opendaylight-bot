@@ -59,7 +59,7 @@ public class Bot {
         return tablePrinter.toString();
     }
 
-    String build(String topicName) throws BotException {
+    public String build(String topicName) throws BotException {
         List<ChangeInfo> changes = gerrit.allChangesOnTopic(topicName);
         return getChangesAsTable(changes, "Build " + gerrit.getBaseURI() + "#/q/topic:" + topicName + " ") + "\n"
                 + multipatchJob.getPatchesToBuildString(changes);
