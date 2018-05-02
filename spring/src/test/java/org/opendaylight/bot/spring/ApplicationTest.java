@@ -28,6 +28,11 @@ public class ApplicationTest {
     @Test public void contextLoads() {
     }
 
+    @Test public void httpGetRootHomepage() {
+        ResponseEntity<String> entity = this.restTemplate.getForEntity("/", String.class);
+        assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
     @Test public void httpGetSlashBotUsage() {
         ResponseEntity<String> entity = this.restTemplate.getForEntity("/bot", String.class);
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
