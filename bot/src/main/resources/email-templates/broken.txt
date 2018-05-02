@@ -1,25 +1,17 @@
 To: $projectName-dev@lists.opendaylight.org
-Subject: $gerritTopicName build failure in proposed topic:$gerritTopicName ("Weather Item")
+Subject: $projectName build failure in proposed topic:$gerritTopicName ("Weather Item" $mainJiraID)
 
 Dear maintainers of project $projectName,
 
-While verifying the cross-projects change on Gerrit topic:$gerritTopicName,
-your project failed to build; please see the build log extract at the end
-for the first failure (there may be others).
+While verifying the proposed cross-projects changes on Gerrit topic:$gerritTopicName together, your project failed to build; please see the build log extract at the end for the first failure (there may be others).
 
-You can locally reproduce this via a `mvn -Pq clean install` of the changed
-artifacts from your dependencies, and then building your project with it:
+You can locally reproduce this via a `mvn -Pq clean install` of the changed artifacts from your dependencies, and then building your project with it:
 
     $gerritTopicURL
 
-Please raise a similar change for your project which fixes this problem.
-Then set its topic to '$topicName', and ask me the friendly Bot to re-run.
-[TODO "by clicking on ..."].  If you don't hear from me anymore, then all
-is good; otherwise I will email this project mailing list again.
+Please raise a similar change for your project which fixes this problem.  Then set its topic to '$topicName', and ask me the friendly Bot to re-run [TODO how?].  If you don't hear from me anymore, then all is good; otherwise I will email this project mailing list again.
 
-If you would like to reach a human for any questions about this,
-please do not reply to this email, but reach out to the Reporter
-of JIRA issue $mainJiraID.
+If you would like to reach a human for any questions about this, please do not reply to this email, but reach out to the Reporter of JIRA issue $mainJiraURL.
 
 Yours sincerely,
 The ODL Bot <https://github.com/vorburger/opendaylight-bot>
