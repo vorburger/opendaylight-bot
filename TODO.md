@@ -21,3 +21,7 @@
 * [ ] have bot as a voting member on Gerrits, -1 all changes on a topic
 
 * [ ] implement simu-merge feature and have bot actually override +2 and Submit
+
+* [ ] extend email templates system to be able to send pretty multipart text + html emails
+        https://www.thymeleaf.org/doc/articles/springmail.html
+        https://mjml.io
