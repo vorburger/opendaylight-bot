@@ -28,14 +28,14 @@ import org.slf4j.LoggerFactory;
  */
 @SuppressWarnings("serial")
 @SuppressFBWarnings({"SE_NO_SERIALVERSIONID", "SE_BAD_FIELD"})
-public class BotServlet extends HttpServlet {
+public class TopicServlet extends HttpServlet {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BotServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TopicServlet.class);
 
     private final Bot bot;
 
     @Inject
-    public BotServlet(Bot bot) {
+    public TopicServlet(Bot bot) {
         this.bot = bot;
     }
 
