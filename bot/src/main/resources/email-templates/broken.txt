@@ -3,7 +3,7 @@ Subject: $projectName build failure in proposed topic:$gerritTopicName ("Weather
 
 Dear maintainers of project $projectName,
 
-While verifying the proposed cross-projects changes on Gerrit topic:$gerritTopicName together, your project failed to build; please see the build log extract at the end for the first failure (there may be others).
+While verifying the proposed cross-projects changes on managed Gerrit topic:$gerritTopicName together, your project failed to build; please see the build log extract at the end for the first failure (there may be others).
 
 You can locally reproduce this via a `mvn -Pq clean install` of the changed artifacts from your dependencies, and then building your project with it:
 
