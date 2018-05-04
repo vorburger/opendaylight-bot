@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/vorburger/opendaylight-bot.svg?branch=master)](https://travis-ci.org/vorburger/opendaylight-bot)
 
+**[LIVE INSTANCE running here](http://prod-opendaylight-bot.e8ca.engint.openshiftapps.com)**  (URL may change).
+
+
 ## Overview
 
 The ODL Bot is a software delivery automation tool. It originated in the OpenDaylight.org FLOSS SDN community,
@@ -25,8 +28,15 @@ Ideas for future features include:
 
 ## How to run on OpenShift
 
-    oc new-build https://github.com/vorburger/s2i.git#maven-wrapper --context-dir=java/images/jboss
+If https://github.com/fabric8io-images/s2i/pull/152 is already merged, then:
+
     oc new-build https://github.com/fabric8io-images/s2i.git --context-dir=java/images/jboss
+
+otherwise:
+
+    oc new-build https://github.com/vorburger/s2i.git#maven-wrapper --context-dir=java/images/jboss
+
+and either way then:
 
     oc new-app s2i~https://github.com/vorburger/opendaylight-bot
 
