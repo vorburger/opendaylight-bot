@@ -48,6 +48,10 @@ public class Gerrit {
         return gerritBaseURI;
     }
 
+    public URI getHumanUI(String query) {
+        return URI.create(getBaseURI() + "#/q/" + query);
+    }
+
     public static String getCurrentRevisionReference(ChangeInfo change) {
         return change.revisions.get(change.currentRevision).ref;
     }
