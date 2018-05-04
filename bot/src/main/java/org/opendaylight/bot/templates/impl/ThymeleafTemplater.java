@@ -32,7 +32,7 @@ public class ThymeleafTemplater implements Templater {
     @Override
     public String run(Template template, Locale locale) {
         String templateName = template.getResourceName();
-        Map<String, Object> variables = template.getVariablesMap();
+        Map<String, Object> variables = template.getProperties();
         IContext context = new Context(locale, variables);
         return templateEngine.process(templateName, context);
     }

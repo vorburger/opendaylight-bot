@@ -11,6 +11,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.Collections;
 import java.util.Map;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.opendaylight.bot.templates.Template;
 import org.opendaylight.bot.templates.Templater;
@@ -30,7 +31,7 @@ public class TemplatesTest {
     public void testTemplateMissingResourceFails() {
         new Template("missing.html") {
             @Override
-            public Map<String, Object> getVariablesMap() {
+            public Map<String, Object> getProperties() {
                 return Collections.emptyMap();
             }
         };
@@ -39,14 +40,26 @@ public class TemplatesTest {
     @Test public void testTemplateEngine() {
         TestTemplate testTemplate = new TestTemplate();
         testTemplate.name = "world";
+        assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\n");
+    }
 
+    @Ignore // TODO how to make this fail?
+    @Test public void testBrokenTemplate() {
+        getTemplater().run(new Template("templates/test/test-template-missing-property.txt") {
+            @Override
+            public Map<String, Object> getProperties() {
+                return Collections.emptyMap();
+            }
+        });
+    }
+
+    private static Templater getTemplater() {
         ClassLoaderTemplateResolver thymeleafTemplateResolver = new ClassLoaderTemplateResolver();
         thymeleafTemplateResolver.setTemplateMode(TemplateMode.TEXT);
 
         TemplateEngine thymeleafTemplateEngine = new TemplateEngine();
         thymeleafTemplateEngine.setTemplateResolver(thymeleafTemplateResolver);
 
-        Templater templater = new ThymeleafTemplater(thymeleafTemplateEngine);
-        assertThat(templater.run(testTemplate)).isEqualTo("hello, world\n");
+        return new ThymeleafTemplater(thymeleafTemplateEngine);
     }
 }

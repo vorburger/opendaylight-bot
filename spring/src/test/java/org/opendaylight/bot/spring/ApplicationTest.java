@@ -44,4 +44,12 @@ public class ApplicationTest {
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
+    @Test public void httpGetEmail() {
+        ResponseEntity<String> entity = this.restTemplate
+                .getForEntity("/email/managed-topic-build-broken/TSC-99/binding-tlc-rpc/lispflowmapping?buildLogURL="
+            + "https%3A%2F%2Fjenkins.opendaylight.org%2Freleng%2Fjob%2Fintegration-multipatch-test-fluorine%2F27",
+            String.class);
+        assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
 }

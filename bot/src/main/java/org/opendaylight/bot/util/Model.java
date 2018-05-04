@@ -5,19 +5,17 @@
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
-package org.opendaylight.bot;
+package org.opendaylight.bot.util;
 
-import org.junit.Test;
-import org.opendaylight.bot.odl.OpenDaylightConfigurer;
+import java.util.Map;
 
 /**
- * Bot unit test.
+ * Model.
  *
  * @author Michael Vorburger.ch
  */
-public class BotTest {
+public interface Model<T> {
 
-    @Test public void testConstructor() throws Exception {
-        new Bot(OpenDaylightConfigurer.getConfiguration());
-    }
+    Map<String, T> getProperties();
+
 }

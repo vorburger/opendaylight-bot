@@ -7,29 +7,28 @@
  */
 package org.opendaylight.bot.templates;
 
-import com.google.common.io.Resources;
 import java.util.Map;
 import org.opendaylight.bot.util.Model;
 
 /**
- * Template with static properties.
+ * Set of multiple sub-templates which all share the same static properties.
  *
  * @author Michael Vorburger.ch
  */
-public abstract class Template implements Model<Object> {
-
-    private final String classpathResourceName;
-
-    protected Template(String classpathResourceName) {
-        Resources.getResource(classpathResourceName);
-        this.classpathResourceName = classpathResourceName;
-    }
-
-    public String getResourceName() {
-        return classpathResourceName;
-    }
+public abstract class MultiTemplate implements Model<Object> {
 
     @Override
     public abstract Map<String, Object> getProperties();
 
+    public class TemplateWithSameProperties extends Template {
+
+        public TemplateWithSameProperties(String classpathResourceName) {
+            super(classpathResourceName);
+        }
+
+        @Override
+        public Map<String, Object> getProperties() {
+            return MultiTemplate.this.getProperties();
+        }
+    }
 }

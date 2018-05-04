@@ -7,12 +7,13 @@
  */
 package org.opendaylight.bot;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.Resources;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import javax.inject.Inject;
 import org.opendaylight.bot.gerrit.Gerrit;
 import org.opendaylight.bot.odl.MultipatchJob;
 import org.opendaylight.infrautils.utils.TablePrinter;
@@ -28,21 +29,22 @@ public class Bot {
     private final Gerrit gerrit;
     private final MultipatchJob multipatchJob;
 
+    @VisibleForTesting
     Bot(Gerrit gerrit, Projects projects) {
         // this.projects = projects;
         this.gerrit = gerrit;
         this.multipatchJob = new MultipatchJob(projects);
     }
 
-    public Bot() throws IOException {
-        // TODO remove hard-coded ODL stuff and make configurable
-        this(new Gerrit(URI.create("https://git.opendaylight.org/gerrit/")),
+    @Inject
+    public Bot(BotConfiguration configuration) throws IOException {
+        this(new Gerrit(configuration.gerritBase),
+             // TODO remove hard-coded ODL project list and make configurable like Gerrit URL
              new Projects(Resources.readLines(Resources.getResource("odl/projects.txt"), StandardCharsets.US_ASCII)));
     }
 
     public String topic(String topicName) throws BotException {
-        return getChangesAsTable(gerrit.allChangesOnTopic(topicName),
-                gerrit.getBaseURI() + "#/q/topic:" + topicName + " ");
+        return getChangesAsTable(gerrit.allChangesOnTopic(topicName), gerrit.getHumanUI("topic:" + topicName) + " ");
     }
 
     private static String getChangesAsTable(List<ChangeInfo> changes, String title) {
@@ -61,7 +63,7 @@ public class Bot {
 
     public String build(String topicName) throws BotException {
         List<ChangeInfo> changes = gerrit.allChangesOnTopic(topicName);
-        return getChangesAsTable(changes, "Build " + gerrit.getBaseURI() + "#/q/topic:" + topicName + " ") + "\n"
+        return getChangesAsTable(changes, "Build " + gerrit.getHumanUI("topic:" + topicName) + " ") + "\n"
                 + multipatchJob.getPatchesToBuildString(changes);
     }
 

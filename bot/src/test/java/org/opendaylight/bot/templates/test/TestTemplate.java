@@ -20,7 +20,7 @@ public class TestTemplate extends Template {
     }
 
     @Override
-    public Map<String, Object> getVariablesMap() {
+    public Map<String, Object> getProperties() {
         return ImmutableMap.of("name", name);
     }
 

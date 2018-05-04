@@ -8,6 +8,7 @@
 package org.opendaylight.bot;
 
 import java.io.IOException;
+import org.opendaylight.bot.odl.OpenDaylightConfigurer;
 
 /**
  * Bot CLI with main method.
@@ -25,7 +26,7 @@ public class MainCLI {
 
     public static void main(String[] args) throws BotException, IOException {
         // TODO read Gerrit URL from a BotConfiguration model
-        new MainCLI(new Bot()).run(args);
+        new MainCLI(new Bot(OpenDaylightConfigurer.getConfiguration())).run(args);
     }
 
     void run(String[] args) throws BotException {

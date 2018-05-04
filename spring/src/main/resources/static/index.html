@@ -7,21 +7,23 @@
   <body>
     <p>I am the OPEN bo<del>rg</del>t, resistance is futile. <a href="https://github.com/vorburger/opendaylight-bot">You can add your own biological and technological distinctiveness here</a>.
 
+    <h3>Launch Managed Topic Build</h3>
     <form action="/bot" method="get">
-      Build Managed Topic: <input type="text" name="topic"> &nbsp; <input type="submit" value="Submit">
+      Managed Gerrit Topic Name: <input type="text" name="topic"> &nbsp; <input type="submit" value="Build">
     </form>
-<!--
-    <h3>Email Managed Topic Build Failure</h3>
-    <form action="/email/managed-topic/build-failure" method="get">
 
-      <p>Gerrit Topic Name: <input type="text" name="gerritTopicName">
+    <h3>Email Managed Topic Build Failure</h3>
+    <form action="/email/managed-topic-build-broken" method="get">
       <p>Tracking JIRA: <input type="text" name="mainJiraID">
-      <p><input type="submit" value="Submit">
+      <p>Managed Gerrit Topic Name: <input type="text" name="gerritTopicName">
+      <p>Failed Project Name: <input type="text" name="projectName">
+      <p>Failed Build URL: <input type="text" name="buildLogURL">
+      <p><input type="submit" value="Send Email">
     </form>
--->
+
     <p>This instance is happy to serve <a href="https://www.opendaylight.org">the OpenDaylight.org community</a>.
 
-    <p>This Cloud Native application is running on OpenShift on OpenStack, supported by Red Hat.
+    <p>This Cloud Native application is running on OpenShift on OpenStack, the Open Source PaaS, supported by Red Hat.
 
     <p><a href="https://www.openshift.com/" title="Powered by OpenShift Online">
       <img alt="Powered by OpenShift Online" src="https://www.openshift.com/images/logos/powered_by_openshift.png">

@@ -1,0 +1,15 @@
+Dear maintainers of projects LIST-OF-AFFECTED,
+
+While verifying the proposed cross-projects changes on managed topic:[( ${gerritTopicName} )], all of your projects and their downstreams passed, when built together:
+
+    [( ${buildLogURL} )]
+
+
+Please decide whether you need CSIT/s to run for this.  If not, get together and organize a "simultaneous merge" of all of these changes:
+
+    [( ${gerritTopicURL} )]
+
+If you would like to reach a human for any questions about this, please do not reply to this email, but reach out to the Reporter of JIRA issue [( ${$mainJiraURL} )].
+
+Yours sincerely,
+The ODL Bot <https://github.com/vorburger/opendaylight-bot>

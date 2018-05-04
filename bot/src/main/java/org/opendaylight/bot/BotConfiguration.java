@@ -7,17 +7,19 @@
  */
 package org.opendaylight.bot;
 
-import org.junit.Test;
-import org.opendaylight.bot.odl.OpenDaylightConfigurer;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.net.URI;
 
 /**
- * Bot unit test.
+ * Bot global configuration.
  *
  * @author Michael Vorburger.ch
  */
-public class BotTest {
+@SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
+public class BotConfiguration {
 
-    @Test public void testConstructor() throws Exception {
-        new Bot(OpenDaylightConfigurer.getConfiguration());
-    }
+    public URI gerritBase;
+    public URI jiraBase;
+    public URI jenkinsBase;
+
 }
