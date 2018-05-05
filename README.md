@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/vorburger/opendaylight-bot.svg?branch=master)](https://travis-ci.org/vorburger/opendaylight-bot)
 
-**[LIVE INSTANCE running here](http://prod-opendaylight-bot.e8ca.engint.openshiftapps.com)**  (URL may change).
+**[LIVE INSTANCE running here](http://opendaylight-bot-opendaylight-bot.6923.rh-us-east-1.openshiftapps.com)** as well as [here](http://prod-opendaylight-bot.e8ca.engint.openshiftapps.com)  (URLs may change).
 
 
 ## Overview
