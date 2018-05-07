@@ -52,11 +52,11 @@ public class Bot {
         tablePrinter.setTitle(title);
         // TODO add V[erified] vote information
         tablePrinter.setColumnNames("Status", "Change", "Mergeable?", "Subject", "Project", "Branch",
-                "Current Rev Ref" /*, "Commit", "Parent/s"*/);
+                "Current Rev Ref", "Commit", "Parent Commit");
         for (ChangeInfo change : changes) {
             tablePrinter.addRow(change.status, change._number, change.mergeable, change.subject, change.project,
-                    change.branch, Gerrit.getCurrentRevisionReference(change)
-                    /* , Gerrit.getCurrentCommit(change), Gerrit.getCurrentParentCommit(change) */);
+                    change.branch, Gerrit.getCurrentRevisionReference(change),
+                    Gerrit.getCurrentCommit(change), Gerrit.getCurrentParentCommit(change));
         }
         return tablePrinter.toString();
     }
