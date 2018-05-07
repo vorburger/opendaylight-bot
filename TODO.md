@@ -2,7 +2,7 @@
 
 * [X] full TDD for recent code
 
-* [ ] RELENG-106: Order patches by parent
+* [X] RELENG-106: Order patches by parent
 
 * [X] simplest possible Web UI
 

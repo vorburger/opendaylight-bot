@@ -7,6 +7,7 @@
  */
 package org.opendaylight.bot.odl;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 import org.opendaylight.bot.BotException;
 import org.opendaylight.bot.Projects;
 import org.opendaylight.bot.gerrit.Gerrit;
+import org.opendaylight.bot.math.DependencySorter;
+import org.opendaylight.bot.math.ParentFunction;
 
 /**
  * Utilities related to the OpenDaylight integration-multipatch-test job.
@@ -31,6 +34,13 @@ import org.opendaylight.bot.gerrit.Gerrit;
 public class MultipatchJob {
 
     private static final String REF_CHANGES_PREFIX = "refs/changes/";
+
+    @VisibleForTesting
+    static final ParentFunction<ChangeInfo> CHANGE_PARENT_FUNCTION = (first, second) ->  {
+        String firstParentCommit = Gerrit.getCurrentParentCommit(first);
+        String secondCurrentCommit = Gerrit.getCurrentCommit(second);
+        return secondCurrentCommit.equals(firstParentCommit);
+    };
 
     private final Projects projects;
 
@@ -73,6 +83,10 @@ public class MultipatchJob {
                 break;
             }
         }
+
+        // sort changes, per project, based on parent commit order (if any matches)
+        filteredMap.forEach((project, projectChangeList) ->
+            DependencySorter.sort(projectChangeList, CHANGE_PARENT_FUNCTION));
 
         StringBuilder patchesToBuild = new StringBuilder();
         filteredMap.forEach((project, refs) -> {
