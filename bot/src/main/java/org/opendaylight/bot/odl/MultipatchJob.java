@@ -7,9 +7,12 @@
  */
 package org.opendaylight.bot.odl;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -48,7 +51,7 @@ public class MultipatchJob {
 
         // TODO check for +1 Verified Vote, and abort if not present
 
-        Map<String, List<String>> unfilteredMap = projects.getNewMultimap();
+        Map<String, List<ChangeInfo>> unfilteredMap = newMultimap();
 
         List<String> unknownProjects = changes.stream()
                 .filter(change -> !unfilteredMap.containsKey(change.project))
@@ -59,10 +62,11 @@ public class MultipatchJob {
 
         changes.stream()
             .filter(change -> change.status.equals(ChangeStatus.NEW))
-            .forEach(change -> unfilteredMap.get(change.project).add(Gerrit.getCurrentRevisionReference(change)));
+            .forEach(change -> unfilteredMap.get(change.project).add(change));
 
-        Map<String, List<String>> filteredMap = new LinkedHashMap<>(unfilteredMap); // must preserve order!
-        for (Map.Entry<String, List<String>> entry : unfilteredMap.entrySet()) {
+        // remove leading projects which have no changes
+        Map<String, List<ChangeInfo>> filteredMap = new LinkedHashMap<>(unfilteredMap); // must preserve order!
+        for (Map.Entry<String, List<ChangeInfo>> entry : unfilteredMap.entrySet()) {
             if (entry.getValue().isEmpty()) {
                 filteredMap.remove(entry.getKey());
             } else {
@@ -78,11 +82,11 @@ public class MultipatchJob {
             patchesToBuild.append(project);
             if (!refs.isEmpty()) {
                 patchesToBuild.append(':');
-                Iterator<String> iterator = refs.iterator();
-                patchesToBuild.append(iterator.next().substring(REF_CHANGES_PREFIX.length()));
+                Iterator<ChangeInfo> iterator = refs.iterator();
+                apend(patchesToBuild, iterator.next());
                 while (iterator.hasNext()) {
                     patchesToBuild.append(':');
-                    patchesToBuild.append(iterator.next().substring(REF_CHANGES_PREFIX.length()));
+                    apend(patchesToBuild, iterator.next());
                 }
             }
         });
@@ -90,4 +94,15 @@ public class MultipatchJob {
         return patchesToBuild.toString();
     }
 
+    private ImmutableMap<String, List<ChangeInfo>> newMultimap() {
+        // The Map we return has to be both immutable, and has predictable iteration order based on insertion.
+        // We could use a LinkedHashMap, but as ImmutableMap with a Builder also guarantees order, let's use that:
+        Builder<String, List<ChangeInfo>> builder = ImmutableMap.<String, List<ChangeInfo>>builder();
+        projects.getProjects().forEach(projectName -> builder.put(projectName, new ArrayList<>()));
+        return builder.build();
+    }
+
+    private static void apend(StringBuilder patchesToBuild, ChangeInfo change) {
+        patchesToBuild.append(Gerrit.getCurrentRevisionReference(change).substring(REF_CHANGES_PREFIX.length()));
+    }
 }

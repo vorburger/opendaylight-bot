@@ -8,16 +8,12 @@
 package org.opendaylight.bot;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -44,14 +40,6 @@ public class Projects {
 
     public List<String> getProjects() {
         return projectsInOrderOfDependencies;
-    }
-
-    public Map<String, List<String>> getNewMultimap() {
-        // The Map we return has to be both immutable, and has predictable iteration order based on insertion.
-        // We could use a LinkedHashMap, but as ImmutableMap with a Builder also guarantees order, let's use that:
-        Builder<String, List<String>> builder = ImmutableMap.<String, List<String>>builder();
-        projectsInOrderOfDependencies.forEach(projectName -> builder.put(projectName, new ArrayList<>()));
-        return builder.build();
     }
 
     // public <T> List<T> sort(Collection<T> list, Function<T, String> projectNameFunction) {
