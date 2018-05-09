@@ -22,6 +22,10 @@
 
 * [ ] use email same template engine also for Web UI; for nicer ManagedTopicBuildFailureEmailController & TopicServlet -> TopicController
 
+* [ ] offer the 2nd (OK) email template directly on the Web UI as well
+
+* [ ] introduce a 3rd email template for projects which have patches but when the build still failed because of failures in them
+
 * [ ] send email (never fully automatically, but propose to human and simple Send button)
         https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-email
         https://docs.spring.io/spring/docs/current/spring-framework-reference/integration.html#mail
@@ -36,6 +40,8 @@
 * [ ] have bot as a voting member on Gerrits, -1 all changes on a topic
 
 * [ ] implement simu-merge feature and have bot actually override +2 and Submit
+
+* [ ] more on https://jira.opendaylight.org/browse/RELENG-101 sub-tasks
 
 * [ ] replace index.html etc. with a pretty CSS styled Bootstrap or whatever UI
 
