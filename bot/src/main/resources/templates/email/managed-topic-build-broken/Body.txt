@@ -8,7 +8,7 @@ You can locally reproduce this via a `mvn -Pq clean install` of the changed arti
 
 Please raise a similar change for your project which fixes this problem.  Then set its topic to '[( ${gerritTopicName} )]', and reply to this email to ask for a new build on this managed topic.  If you don't hear from me anymore, then all is good; otherwise I will email this project mailing list again with a new email similar to this one.
 
-If you would like to reach a human for any questions about this, please do not reply to this email, but instead read the JIRA issue [( ${botConfiguration.jiraBase} )]/browse/[( ${mainJiraID} )], and reach out to its Reporter in case of any doubt.
+If you would like to reach a human for any questions about this, please do not reply to this email, but instead read the JIRA issue [( ${botConfiguration.jiraBase} )]browse/[( ${mainJiraID} )], and reach out to its Reporter in case of any doubt.
 
 Yours sincerely,
 The ODL Bot <https://github.com/vorburger/opendaylight-bot>
