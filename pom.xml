@@ -21,4 +21,11 @@
     <module>bot</module>
     <module>spring</module>
   </modules>
+  
+  <dependency>
+  <groupId>com.cdancy</groupId>
+  <artifactId>jenkins-rest</artifactId>
+  <version>0.0.10</version>
+ </dependency>
+  
 </project>
