@@ -9,14 +9,14 @@ package org.opendaylight.bot.jenkins;
 
 import com.google.common.collect.Lists;
 
-import com.squareup.okhttp.mockwebserver.MockWebServer;
 import com.squareup.okhttp.mockwebserver.MockResponse;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
+
+import com.cdancy.jenkins.rest.JenkinsClient;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.cdancy.jenkins.rest.JenkinsClient;
 
 /**
 * Template of Initial Jenkins Client API.
@@ -24,31 +24,25 @@ import com.cdancy.jenkins.rest.JenkinsClient;
 */
 
 public class Client {
-
-    public void connect() {
     
+    public void connect() {    
         JenkinsClient client = JenkinsClient.builder()
             .endPoint("http://127.0.0.1:8080")
-            .credentials("admin:password") 
+            .credentials("admin:password")
             .build();
     }
     
-    public void Buildwithparameters() {
-   
+    public void JobBuild() {   
         MockWebServer server = mockWebServer();
-
         server.enqueue(
               new MockResponse().setHeader("Location", "http://127.0.1.1:8080/job/item/1/").setResponseCode(201));
         JenkinsApi jenkinsApi = api(server.getUrl("/"));
         JobsApi api = jenkinsApi.jobsApi();
-      
+        
         Map<String, List<String>> params = new HashMap<>();
         params.put("Key", Lists.newArrayList("KeyValue"));
-        IntegerResponse output = api.buildWithParameters(null, "JobName", params);
-      
+        IntegerResponse output = api.buildWithParameters(null, "JobName", params);      
         jenkinsApi.close();
-        server.shutdown();
-    
-    }
-      
+        server.shutdown();        
+    }      
 }
