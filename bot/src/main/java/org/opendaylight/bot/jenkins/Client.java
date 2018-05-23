@@ -20,8 +20,10 @@ import com.squareup.okhttp.mockwebserver.MockResponse;
 
 
 /**
-* Initial Jenkins Client API 
+* Template of Initial Jenkins Client API
+* @author Prateek Chanda
 */
+
 public class Client {
   public void connect() {
     
@@ -50,6 +52,4 @@ public class Client {
     
     }
       
-  
-  
 }
