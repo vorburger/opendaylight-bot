@@ -9,10 +9,10 @@ package org.opendaylight.bot.jenkins;
 
 import com.google.common.collect.Lists;
 
+import com.cdancy.jenkins.rest.JenkinsClient;
+
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
-
-import com.cdancy.jenkins.rest.JenkinsClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,25 +24,23 @@ import java.util.Map;
 */
 
 public class Client {
-    
-    public void connect() {    
+    public void connect() {
         JenkinsClient client = JenkinsClient.builder()
             .endPoint("http://127.0.0.1:8080")
             .credentials("admin:password")
             .build();
     }
     
-    public void JobBuild() {   
+    public void buildJob() {
         MockWebServer server = mockWebServer();
         server.enqueue(
               new MockResponse().setHeader("Location", "http://127.0.1.1:8080/job/item/1/").setResponseCode(201));
         JenkinsApi jenkinsApi = api(server.getUrl("/"));
         JobsApi api = jenkinsApi.jobsApi();
-        
         Map<String, List<String>> params = new HashMap<>();
         params.put("Key", Lists.newArrayList("KeyValue"));
-        IntegerResponse output = api.buildWithParameters(null, "JobName", params);      
+        IntegerResponse output = api.buildWithParameters(null, "JobName", params);
         jenkinsApi.close();
-        server.shutdown();        
+        server.shutdown();
     }      
 }
