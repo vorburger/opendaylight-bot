@@ -11,36 +11,29 @@ import com.cdancy.jenkins.rest.JenkinsClient;
 
 import com.google.common.collect.Lists;
 
-import com.squareup.okhttp.mockwebserver.MockResponse;
-import com.squareup.okhttp.mockwebserver.MockWebServer;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
 * Template of Initial Jenkins Client API.
 * @author Prateek Chanda
 */
 
 public class Client {
-    public void connect() {
+    
+    public String FolderPath = "https://jenkins.opendaylight.org/releng";
+    
+    // CredentialIds  must take the form of "username:password" or base64 encoded version.
+    public void connect(String CredentialIds) {
         JenkinsClient client = JenkinsClient.builder()
-            .endPoint("http://127.0.0.1:8080")
-            .credentials("admin:password")
+            .endPoint(FolderPath)
+            .credentials(CredentialIds)
             .build();
     }
     
-    public void buildJob() {
-        MockWebServer server = mockWebServer();
-        server.enqueue(
-              new MockResponse().setHeader("Location", "http://127.0.1.1:8080/job/item/1/").setResponseCode(201));
-        JenkinsApi jenkinsApi = api(server.getUrl("/"));
+    public void buildJob(String JobName) {
+        
+        private String BuildPath = FolderPath + "/job" + JobName  + "/buildWithParameters";
+        JenkinsApi jenkinsApi;
         JobsApi api = jenkinsApi.jobsApi();
-        Map<String, List<String>> params = new HashMap<>();
-        params.put("Key", Lists.newArrayList("KeyValue"));
-        IntegerResponse output = api.buildWithParameters(null, "JobName", params);
-        jenkinsApi.close();
-        server.shutdown();
+        IntegerResponse output = api.buildWithParameters(null, BuildPath);
+        jenkinsApi.close();        
     }
 }
