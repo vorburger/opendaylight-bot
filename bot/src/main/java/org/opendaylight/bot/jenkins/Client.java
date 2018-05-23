@@ -30,6 +30,7 @@ public class Client {
             .credentials("admin:password")
             .build();
     }
+    
     public void buildJob() {
         MockWebServer server = mockWebServer();
         server.enqueue(
