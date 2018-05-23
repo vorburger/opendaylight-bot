@@ -7,9 +7,9 @@
  */
 package org.opendaylight.bot.jenkins;
 
-import com.google.common.collect.Lists;
-
 import com.cdancy.jenkins.rest.JenkinsClient;
+
+import com.google.common.collect.Lists;
 
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
@@ -42,5 +42,5 @@ public class Client {
         IntegerResponse output = api.buildWithParameters(null, "JobName", params);
         jenkinsApi.close();
         server.shutdown();
-    }      
+    }
 }
