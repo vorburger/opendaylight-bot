@@ -15,8 +15,9 @@ import com.cdancy.jenkins.rest.JenkinsClient;
 */
 
 public class Client {
-    
+
     public String folderPath = "https://jenkins.opendaylight.org/releng";
+    
     // credentialIds  must take the form of "username:password" or base64 encoded version.
     public void connect(String credentialIds) {
         
@@ -25,7 +26,7 @@ public class Client {
             .credentials(credentialIds)
             .build();
     }
-    
+
     public void buildJob(String jobName) {
         
         private String buildPath = folderPath + "/job" + jobName  + "/buildWithParameters";
