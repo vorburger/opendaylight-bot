@@ -7,9 +7,8 @@
  */
 package org.opendaylight.bot.jenkins;
 
+import com.cdancy.jenkins.rest;
 import com.cdancy.jenkins.rest.JenkinsClient;
-
-import com.google.common.collect.Lists;
 
 /**
 * Template of Initial Jenkins Client API.
@@ -18,22 +17,22 @@ import com.google.common.collect.Lists;
 
 public class Client {
     
-    public String FolderPath = "https://jenkins.opendaylight.org/releng";
+    public String folderPath = "https://jenkins.opendaylight.org/releng";
     
-    // CredentialIds  must take the form of "username:password" or base64 encoded version.
-    public void connect(String CredentialIds) {
+    // credentialIds  must take the form of "username:password" or base64 encoded version.
+    public void connect(String credentialIds) {
         JenkinsClient client = JenkinsClient.builder()
-            .endPoint(FolderPath)
-            .credentials(CredentialIds)
+            .endPoint(folderPath)
+            .credentials(credentialIds)
             .build();
     }
     
-    public void buildJob(String JobName) {
+    public void buildJob(String jobName) {
         
-        private String BuildPath = FolderPath + "/job" + JobName  + "/buildWithParameters";
+        private String buildPath = folderPath + "/job" + jobName  + "/buildWithParameters";
         JenkinsApi jenkinsApi;
         JobsApi api = jenkinsApi.jobsApi();
-        IntegerResponse output = api.buildWithParameters(null, BuildPath);
-        jenkinsApi.close();        
+        IntegerResponse output = api.buildWithParameters(null, buildPath);
+        jenkinsApi.close();
     }
 }
