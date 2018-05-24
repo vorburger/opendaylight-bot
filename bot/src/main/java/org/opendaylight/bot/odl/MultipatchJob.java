@@ -54,10 +54,9 @@ public class MultipatchJob {
      */
     @SuppressFBWarnings("UC_USELESS_OBJECT") // apparently a bug in FindBugs; map2 is not useless, of course
     public String getPatchesToBuildString(Collection<ChangeInfo> changes) throws BotException {
-        // TODO why NPE for topicName = CONTROLLER-1802 with 3x MERGED and 2x NEW?
-        // if (changes.stream().filter(change -> !change.mergeable).findFirst().isPresent()) {
-        //    throw new BotException("Changes with conflicts which need to be manually resolved!");
-        // }
+        if (changes.stream().filter(change -> !change.mergeable).findFirst().isPresent()) {
+            return "Refusing build as long as there are changes with conflicts, please rebase and resolve them first.";
+        }
 
         // TODO check for +1 Verified Vote, and abort if not present
 
