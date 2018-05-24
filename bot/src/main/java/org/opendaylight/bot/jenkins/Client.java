@@ -7,7 +7,6 @@
  */
 package org.opendaylight.bot.jenkins;
 
-import com.cdancy.jenkins.rest;
 import com.cdancy.jenkins.rest.JenkinsClient;
 
 /**
@@ -16,9 +15,7 @@ import com.cdancy.jenkins.rest.JenkinsClient;
 */
 
 public class Client {
-    
     public String folderPath = "https://jenkins.opendaylight.org/releng";
-    
     // credentialIds  must take the form of "username:password" or base64 encoded version.
     public void connect(String credentialIds) {
         JenkinsClient client = JenkinsClient.builder()
@@ -26,9 +23,8 @@ public class Client {
             .credentials(credentialIds)
             .build();
     }
-    
-    public void buildJob(String jobName) {
-        
+    // 
+    public void buildJob(String jobName) {        
         private String buildPath = folderPath + "/job" + jobName  + "/buildWithParameters";
         JenkinsApi jenkinsApi;
         JobsApi api = jenkinsApi.jobsApi();
