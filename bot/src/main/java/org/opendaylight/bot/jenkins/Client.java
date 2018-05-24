@@ -21,15 +21,15 @@ public class Client {
     // credentialIds  must take the form of "username:password" or base64 encoded version.
     public void connect(String credentialIds) {
 
-        JenkinsClient client = JenkinsClient.builder()
-            .endPoint(folderPath)
-            .credentials(credentialIds)
+        JenkinsClient client = JenkinsClient.builder();
+            .endPoint(folderPath);
+            .credentials(credentialIds);
             .build();
     }
 
     public void buildJob(String jobName) {
 
-        private String buildPath = folderPath + "/job" + jobName  + "/buildWithParameters";
+        String buildPath = folderPath + "/job" + jobName  + "/buildWithParameters";
         JenkinsApi jenkinsApi;
         JobsApi api = jenkinsApi.jobsApi();
         IntegerResponse output = api.buildWithParameters(null, buildPath);
