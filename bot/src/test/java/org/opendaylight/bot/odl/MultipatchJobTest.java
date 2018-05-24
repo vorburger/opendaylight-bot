@@ -60,10 +60,19 @@ public class MultipatchJobTest {
             .isEqualTo("p2:30/23973/48,p3,p4:05/71205/7:62/69362/30:40/38973/60");
     }
 
+    @Test public void testAlreadyMergedChangesWhereMergeableIsNull() throws BotException {
+        MultipatchJob multipatchJob = new MultipatchJob(new Projects("p1"));
+        ChangeInfo mergedChange = newChange("p1", NEW, "refs/changes/62/69362/30", "commit-sha1", "nop");
+        mergedChange.mergeable = null;
+        // just make sure this doesn't NPE...
+        multipatchJob.getPatchesToBuildString(newArrayList(mergedChange));
+    }
+
     private static ChangeInfo newChange(String projectName, ChangeStatus status, String ref,
             String commit, String parentCommit) {
         ChangeInfo change = new ChangeInfo();
         change.project = projectName;
+        change.mergeable = true;
         change.status = status;
 
         // matching Gerrit.getCurrentRevisionReference()

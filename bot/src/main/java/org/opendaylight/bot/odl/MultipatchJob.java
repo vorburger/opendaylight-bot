@@ -54,7 +54,7 @@ public class MultipatchJob {
      */
     @SuppressFBWarnings("UC_USELESS_OBJECT") // apparently a bug in FindBugs; map2 is not useless, of course
     public String getPatchesToBuildString(Collection<ChangeInfo> changes) throws BotException {
-        if (changes.stream().filter(change -> !change.mergeable).findFirst().isPresent()) {
+        if (changes.stream().filter(change -> change.mergeable != null && !change.mergeable).findFirst().isPresent()) {
             return "Refusing build as long as there are changes with conflicts, please rebase and resolve them first.";
         }
 
