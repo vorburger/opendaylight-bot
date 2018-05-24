@@ -8,8 +8,8 @@
 package org.opendaylight.bot.jenkins;
 
 import java.net.URI;
-import org.opendaylight.bot.BotConfiguration;
 import com.cdancy.jenkins.rest.JenkinsClient;
+import org.opendaylight.bot.BotConfiguration;
 
 /**
 * Template of Initial Jenkins Client API.
@@ -18,20 +18,20 @@ import com.cdancy.jenkins.rest.JenkinsClient;
 
 public class Client {
 
+    private final BotConfiguration configuration;
     // credentialIds  must take the form of "username:password" or base64 encoded version.
-    public static void Build(String credentialsId, String jobName) {
+    public static void buildJob(String credentialsId, String jobName) {
 
-        BotConfiguration configuration = new BotConfiguration();
         configuration.jenkinsBase = URI.create("https://jenkins.opendaylight.org/");
-        configuration.jobName =jobName;
+        configuration.jobName = jobName;
         configuration.credentialsId = credentialsId;
 
         String buildPath = configuration.jenkinsBase.toString() + "/job" + configuration.jobName  + "/buildWithParameters";
 
         JenkinsClient client = JenkinsClient.builder()
-        .endPoint(configuration.jenkinsBase)
-        .credentials(configuration.credentialsId)
-        .build();
+                .endPoint(configuration.jenkinsBase)
+                .credentials(configuration.credentialsId)
+                .build();
 
         JenkinsApi jenkinsApi;
         JobsApi api = jenkinsApi.jobsApi();
