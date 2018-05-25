@@ -36,6 +36,13 @@ then you can:
     ./mvnw package
     java -jar spring/target/org.opendaylight.bot.spring.jar
 
+or 
+
+     ./mvnw package  -Dcheckstyle.skip   // to skip Checkstyle Violations
+    java -jar spring/target/org.opendaylight.bot.spring.jar
+ 
+
+
 
 ## How to run on OpenShift
 
