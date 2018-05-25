@@ -21,10 +21,21 @@ Ideas for future features include:
 * Multi project "version bumping looking ahead" builds
 * …
 
+
 ## How to run locally
+
+You need the Maven settings.xml from OpenDaylight to have Maven grab stuff 
+from https://nexus.opendaylight.org instead of from https://repo.maven.apache.org/maven2.
+This is [described in the OpenDaylight documentation](http://docs.opendaylight.org/en/latest/developer-guide/developing-apps-on-the-opendaylight-controller.html),
+but basically just:
+
+    cp -n ~/.m2/settings.xml{,.orig} ; wget -q -O - https://raw.githubusercontent.com/opendaylight/odlparent/master/settings.xml > ~/.m2/settings.xml
+
+then you can:
 
     ./mvnw package
     java -jar spring/target/org.opendaylight.bot.spring.jar
+
 
 ## How to run on OpenShift
 
@@ -39,6 +50,7 @@ otherwise:
 and either way then:
 
     oc new-app s2i~https://github.com/vorburger/opendaylight-bot
+
 
 ## How to locally test the S2I container image build
 
