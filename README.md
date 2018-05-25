@@ -31,6 +31,8 @@ but basically just:
 
     cp -n ~/.m2/settings.xml{,.orig} ; wget -q -O - https://raw.githubusercontent.com/opendaylight/odlparent/master/settings.xml > ~/.m2/settings.xml
 
+As an alternative copy the xml code from [settings.xml](https://raw.githubusercontent.com/opendaylight/odlparent/master/settings.xml) and simply paste it into `C:\Users\user_name\.m2\settings.xml`
+
 then you can:
 
     ./mvnw package
