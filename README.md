@@ -38,7 +38,7 @@ then you can:
 
 or 
 
-     ./mvnw package  -Dcheckstyle.skip   // to skip Checkstyle Violations
+    ./mvnw package  -Dcheckstyle.skip   // to skip Checkstyle Violations
     java -jar spring/target/org.opendaylight.bot.spring.jar
  
 
