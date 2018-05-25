@@ -22,12 +22,12 @@
     <module>spring</module>
   </modules>
   
- <dependencies>
-  <dependency>
-  <groupId>com.cdancy</groupId>
-  <artifactId>jenkins-rest</artifactId>
-  <version>0.0.10</version>
- </dependency>
- </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>com.cdancy</groupId>
+      <artifactId>jenkins-rest</artifactId>
+      <version>0.0.10</version>
+    </dependency>
+  </dependencies>
   
 </project>
