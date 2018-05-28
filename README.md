@@ -24,6 +24,10 @@ Ideas for future features include:
 
 ## How to run locally
 
+We would always encourage you to follow the following best practices for local development before pushing your enhancement into the master as a GitHub Pull Request. Do note, that pull requests with build failures will not be entertained. This way it will be more easier for us to review your pull requests.
+
+For local development see the following practices.
+
 Install Maven if you dont have it pre-installed . [See here](https://maven.apache.org)
 
 You need the Maven settings.xml from OpenDaylight to have Maven grab stuff 
