@@ -11,6 +11,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.Collections;
 import java.util.Map;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendaylight.bot.templates.Template;
@@ -28,6 +29,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 public class TemplatesTest {
 
     private static String op = System.getProperty("os.name").toLowerCase();
+
     @Test(expected = IllegalArgumentException.class)
     public void testTemplateMissingResourceFails() {
         new Template("missing.html") {
@@ -38,23 +40,23 @@ public class TemplatesTest {
         };
     }
 
-    @Test public void testTemplateEngine() {
+    @Test
+    public void testTemplateEngine() {
         TestTemplate testTemplate = new TestTemplate();
         testTemplate.name = "world";
-	if(op.contains("windows")){
+        if (op.contains("windows")) {
             assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\r\n");
+        } else if (op.contains("mac os")) {
+            assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\r");
+        } else {
+            assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\n");
         }
-	else if(op.contains("mac os")){
-	    assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\r");
-	}
-	else{
-	    assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\n");
-	}
 
     }
 
     @Ignore // TODO how to make this fail?
-    @Test public void testBrokenTemplate() {
+    @Test
+    public void testBrokenTemplate() {
         getTemplater().run(new Template("templates/test/test-template-missing-property.txt") {
             @Override
             public Map<String, Object> getProperties() {
