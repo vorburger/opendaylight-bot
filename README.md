@@ -24,7 +24,7 @@ Ideas for future features include:
 
 ## How to run locally
 
-Install Maven if you dont have it pre-installed . [See here](https://www.mkyong.com/maven/how-to-install-maven-in-windows/)
+Install Maven if you dont have it pre-installed . [See here](https://maven.apache.org)
 
 You need the Maven settings.xml from OpenDaylight to have Maven grab stuff 
 from https://nexus.opendaylight.org instead of from https://repo.maven.apache.org/maven2.
