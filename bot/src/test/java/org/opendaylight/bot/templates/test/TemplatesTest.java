@@ -27,6 +27,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
  */
 public class TemplatesTest {
 
+    private static String op = System.getProperty("os.name").toLowerCase();
     @Test(expected = IllegalArgumentException.class)
     public void testTemplateMissingResourceFails() {
         new Template("missing.html") {
@@ -40,7 +41,16 @@ public class TemplatesTest {
     @Test public void testTemplateEngine() {
         TestTemplate testTemplate = new TestTemplate();
         testTemplate.name = "world";
-        assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\n");
+	if(op.contains("windows")){
+            assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\r\n");
+        }
+	else if(op.contains("mac os")){
+	    assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\r");
+	}
+	else{
+	    assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\n");
+	}
+
     }
 
     @Ignore // TODO how to make this fail?
