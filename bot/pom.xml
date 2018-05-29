@@ -40,10 +40,10 @@
     </dependency>
     
     <dependency>
-			<groupId>com.offbytwo.jenkins</groupId>
-			<artifactId>jenkins-client</artifactId>
-			<version>0.3.7</version>
-	  </dependency>  
+	<groupId>com.offbytwo.jenkins</groupId>
+	<artifactId>jenkins-client</artifactId>
+	<version>0.3.7</version>
+    </dependency> 
     
   </dependencies>
 </project>
