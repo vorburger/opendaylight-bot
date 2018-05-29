@@ -38,12 +38,20 @@
       <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>com.offbytwo.jenkins</groupId>
       <artifactId>jenkins-client</artifactId>
       <version>0.3.7</version>
-    </dependency> 
-    
+    </dependency>
+    <!-- Override commons-beanutils, even though we don't directly depend on it,
+         jenkins-client grabs it via json-lib, but an older version which copy/pasted
+         4 classes from commons-collections, which is very bad, so we bump to latest
+         version which does not do this anymore; see https://issues.apache.org/jira/browse/BEANUTILS-379. -->
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.9.3</version>
+    </dependency>
   </dependencies>
 </project>
