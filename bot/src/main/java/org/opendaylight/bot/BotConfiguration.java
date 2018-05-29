@@ -21,5 +21,7 @@ public class BotConfiguration {
     public URI gerritBase;
     public URI jiraBase;
     public URI jenkinsBase;
+    public String jobName;
+    public String credentialsId;
 
 }
