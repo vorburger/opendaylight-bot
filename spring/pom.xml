@@ -23,6 +23,13 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>bot</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <exclusion>
+          <!-- overlaps with org.springframework:spring-jcl -->
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
