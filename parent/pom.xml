@@ -49,5 +49,18 @@
 
   <build>
     <finalName>${project.groupId}.${project.name}</finalName>
+
+    <plugins>
+      <plugin>
+        <groupId>org.basepom.maven</groupId>
+        <artifactId>duplicate-finder-maven-plugin</artifactId>
+        <configuration>
+          <ignoredClassPatterns>
+            <!-- jenkins-client: org.w3c.dom.UserDataHandler is in xml-apis with the rest of org.w3c.dom, but jaxen also has (just) it copy/pasted :-( -->
+            <ignoredClassPattern>org.w3c.dom.UserDataHandler</ignoredClassPattern>
+          </ignoredClassPatterns>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
