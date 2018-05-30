@@ -8,6 +8,7 @@
 package org.opendaylight.bot;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.net.URI;
 
 /**
@@ -21,5 +22,6 @@ public class BotConfiguration {
     public URI gerritBase;
     public URI jiraBase;
     public URI jenkinsBase;
-
+    public String jenkinsLogin;
+    public String jenkinsPassword;
 }
