@@ -46,8 +46,6 @@ public class TemplatesTest {
         testTemplate.name = "world";
         if (op.contains("windows")) {
             assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\r\n");
-        } else if (op.contains("mac os")) {
-            assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\r");
         } else {
             assertThat(getTemplater().run(testTemplate)).isEqualTo("hello, world\n");
         }
