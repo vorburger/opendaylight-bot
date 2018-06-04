@@ -63,8 +63,9 @@ public class Bot {
 
     public String build(String topicName) throws BotException {
         List<ChangeInfo> changes = gerrit.allChangesOnTopic(topicName);
+        ResultWithWarnings<String, String> build = multipatchJob.getPatchesToBuildString(changes);
         return getChangesAsTable(changes, "Build " + gerrit.getHumanUI("topic:" + topicName) + " ") + "\n"
-                + multipatchJob.getPatchesToBuildString(changes) + "\n" + "topic=" + topicName;
+                + build.getResult() + "\nWarnings: " + build.getWarnings() + "\ntopic=" + topicName;
     }
 
     // TODO List<Topic>

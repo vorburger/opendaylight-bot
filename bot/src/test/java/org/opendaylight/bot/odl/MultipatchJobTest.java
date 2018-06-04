@@ -21,6 +21,7 @@ import java.util.List;
 import org.junit.Test;
 import org.opendaylight.bot.BotException;
 import org.opendaylight.bot.Projects;
+import org.opendaylight.bot.ResultWithWarnings;
 
 /**
  * Unit test for {@link MultipatchJob}.
@@ -36,7 +37,7 @@ public class MultipatchJobTest {
         assertThat(multipatchJob.getPatchesToBuildString(newArrayList(
                 newChange("p4", NEW, "refs/changes/62/69362/30", "commit-sha1", "nop"),
                 newChange("p2", NEW, "refs/changes/30/23973/48", "commit-sha2 ;)", "nop"),
-                newChange("p4", NEW, "refs/changes/40/38973/60", "commit-sha3 ;)", "nop"))))
+                newChange("p4", NEW, "refs/changes/40/38973/60", "commit-sha3 ;)", "nop"))).getResult())
             .isEqualTo("p2:30/23973/48,p3,p4:62/69362/30:40/38973/60");
     }
 
@@ -56,7 +57,7 @@ public class MultipatchJobTest {
         assertThat(MultipatchJob.CHANGE_PARENT_FUNCTION.apply(changes.get(0), changes.get(3))).isFalse();
         assertThat(MultipatchJob.CHANGE_PARENT_FUNCTION.apply(changes.get(3), changes.get(1))).isFalse();
         assertThat(MultipatchJob.CHANGE_PARENT_FUNCTION.apply(changes.get(1), changes.get(3))).isFalse();
-        assertThat(multipatchJob.getPatchesToBuildString(changes))
+        assertThat(multipatchJob.getPatchesToBuildString(changes).getResult())
             .isEqualTo("p2:30/23973/48,p3,p4:05/71205/7:62/69362/30:40/38973/60");
     }
 
@@ -66,6 +67,19 @@ public class MultipatchJobTest {
         mergedChange.mergeable = null;
         // just make sure this doesn't NPE...
         multipatchJob.getPatchesToBuildString(newArrayList(mergedChange));
+    }
+
+    @Test public void testIgnoreUnknownProjects() throws BotException {
+        MultipatchJob multipatchJob = new MultipatchJob(new Projects("p1"));
+        ChangeInfo knownProjectChange = newChange("p1", NEW, "refs/changes/62/69362/30", "commit-sha1", "nop");
+        ChangeInfo unknownProjectChange = newChange("p2", NEW, "refs/changes/30/23973/48", "commit-sha2 ;)", "nop");
+        // just make sure this doesn't NPE...
+        ResultWithWarnings<String, String> build = multipatchJob
+                .getPatchesToBuildString(newArrayList(knownProjectChange, unknownProjectChange));
+        assertThat(build.getResult()).contains("p1");
+        assertThat(build.getResult()).doesNotContain("p2");
+        assertThat(build.getWarnings().toString()).doesNotContain("p1");
+        assertThat(build.getWarnings().toString()).contains("p2");
     }
 
     private static ChangeInfo newChange(String projectName, ChangeStatus status, String ref,
