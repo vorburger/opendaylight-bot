@@ -10,6 +10,7 @@ package org.opendaylight.bot.jenkins;
 import com.google.common.collect.ImmutableMap;
 
 import com.offbytwo.jenkins.JenkinsServer;
+import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.JobWithDetails;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -24,12 +25,11 @@ import org.opendaylight.bot.BotConfiguration;
  *
  * @author Prateek Chanda
  */
-@SuppressFBWarnings({"UWF_UNWRITTEN_FIELD"})
+@SuppressFBWarnings({"UWF_UNWRITTEN_FIELD", "DLS_DEAD_LOCAL_STORE"})
 public class Client {
 
-    private String jobName;
     private String login = System.getenv("MY_UID");
-    private String passwd = System.getenv("MY_PASSWD");;
+    private String passwd = System.getenv("MY_PASSWD");
 
     public static BotConfiguration getConfiguration(String admin, String password) {
 
@@ -40,7 +40,7 @@ public class Client {
         return configuration;
     }
 
-    void buildJob(String parameterJob) throws IOException {
+    void buildJob(String parameterJob, String jobName) throws IOException {
 
         URI linkname = getConfiguration(login, passwd).jenkinsBase;
         JenkinsServer jenkninsServer = new JenkinsServer(linkname, getConfiguration(login, passwd).jenkinsLogin,
@@ -49,5 +49,9 @@ public class Client {
         ImmutableMap<String, String> params = ImmutableMap.of(parameterJob, "master");
         JobWithDetails job = jenkninsServer.getJob(jobName);
         job.build(params);
+        // check for last build
+        Build lastBuild = job.getLastBuild();
+        // check last successful build
+        Build buildLastSuccessful = job.getLastSuccessfulBuild();
     }
 }
