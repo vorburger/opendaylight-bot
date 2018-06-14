@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.opendaylight.bot.Bot;
-import org.opendaylight.bot.BotException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +39,7 @@ public class TopicServlet extends HttpServlet {
     }
 
     @Override
+    @SuppressWarnings({"checkstyle:IllegalCatch", "checkstyle:RegexpSinglelineJava"})
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -53,8 +53,9 @@ public class TopicServlet extends HttpServlet {
             } else {
                 out.println("USAGE: /bot?topic={managedTopicName}");
             }
-        } catch (BotException e) {
+        } catch (Throwable e) {
             LOG.error("Bot failed", e);
+            e.printStackTrace(out);
         }
     }
 }

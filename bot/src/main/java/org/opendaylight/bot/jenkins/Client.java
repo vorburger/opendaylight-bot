@@ -25,6 +25,7 @@ import org.opendaylight.bot.BotConfiguration;
  *
  * @author Prateek Chanda
  */
+
 @SuppressFBWarnings({"UWF_UNWRITTEN_FIELD", "DLS_DEAD_LOCAL_STORE"})
 public class Client {
 

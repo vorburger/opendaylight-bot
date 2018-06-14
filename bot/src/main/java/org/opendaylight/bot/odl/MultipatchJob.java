@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.opendaylight.bot.BotException;
 import org.opendaylight.bot.Projects;
+import org.opendaylight.bot.ResultWithWarnings;
 import org.opendaylight.bot.gerrit.Gerrit;
 import org.opendaylight.bot.math.DependencySorter;
 import org.opendaylight.bot.math.ParentFunction;
@@ -53,25 +54,25 @@ public class MultipatchJob {
      * OpenDaylight integration-multipatch-test job.
      */
     @SuppressFBWarnings("UC_USELESS_OBJECT") // apparently a bug in FindBugs; map2 is not useless, of course
-    public String getPatchesToBuildString(Collection<ChangeInfo> changes) throws BotException {
+    public ResultWithWarnings<String, String> getPatchesToBuildString(Collection<ChangeInfo> changes)
+            throws BotException {
         if (changes.stream().filter(change -> change.mergeable != null && !change.mergeable).findFirst().isPresent()) {
-            return "Refusing build as long as there are changes with conflicts, please rebase and resolve them first.";
+            return new ResultWithWarnings<>("",
+                    "Refusing build as long as there are changes with conflicts, please rebase and resolve them.");
         }
 
         // TODO check for +1 Verified Vote, and abort if not present
 
         Map<String, List<ChangeInfo>> unfilteredMap = newMultimap();
 
-        List<String> unknownProjects = changes.stream()
-                .filter(change -> !unfilteredMap.containsKey(change.project))
-                .map(change -> change.project).distinct().collect(Collectors.toList());
-        if (!unknownProjects.isEmpty()) {
-            throw new BotException("Unknown projects: " + unknownProjects);
-        }
-
         changes.stream()
             .filter(change -> change.status.equals(ChangeStatus.NEW))
-            .forEach(change -> unfilteredMap.get(change.project).add(change));
+            .forEach(change -> {
+                List<ChangeInfo> projectChangeList = unfilteredMap.get(change.project);
+                if (projectChangeList != null) {
+                    projectChangeList.add(change);
+                }
+            });
 
         // remove leading projects which have no changes
         Map<String, List<ChangeInfo>> filteredMap = new LinkedHashMap<>(unfilteredMap); // must preserve order!
@@ -104,7 +105,12 @@ public class MultipatchJob {
             }
         });
 
-        return patchesToBuild.toString();
+        List<String> unknownProjects = changes.stream()
+                .filter(change -> !unfilteredMap.containsKey(change.project))
+                .map(change -> change.project).distinct().collect(Collectors.toList());
+        return new ResultWithWarnings<>(patchesToBuild.toString(),
+                unknownProjects.stream().map(project -> "Ignored unknown project: " + project)
+                        .collect(Collectors.toList()));
     }
 
     private ImmutableMap<String, List<ChangeInfo>> newMultimap() {
