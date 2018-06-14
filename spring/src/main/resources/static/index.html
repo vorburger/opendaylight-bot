@@ -21,6 +21,13 @@
       <p><input type="submit" value="Send Email">
     </form>
 
+    <h3>Query Jira issue</h3>
+    <form action="/jira" method="post">
+      <label for="jiraUrl">Jira URI:</label><input type="text" placeholder="Enter url to your jira instance" id="jiraUrl"><br>
+      <label for="jiraUsername">Jira Username:</label><input type="text" id="jiraUsername"><br>
+      <label for="jiraPassword">Jira Password:</label><input type="password" id="jiraPassword"><br>
+      <input type="submit">
+    </form>
     <p>This instance is happy to serve <a href="https://www.opendaylight.org">the OpenDaylight.org community</a>.
 
     <p>This Cloud Native application is running on OpenShift on OpenStack, the Open Source PaaS, supported by Red Hat.
