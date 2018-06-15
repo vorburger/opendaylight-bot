@@ -55,7 +55,7 @@ public class Jira {
         List<Issue> issues = new ArrayList<>();
         searchRestClient.searchJql(jql)
                 .done(result -> result.getIssues().forEach(issue -> issues.add(issue)))
-                .fail(err -> log.error(err));
+                .fail(err -> log.error(err)).claim();
         return issues;
     }
 }
