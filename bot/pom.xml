@@ -42,7 +42,7 @@
     <dependency>
       <groupId>com.offbytwo.jenkins</groupId>
       <artifactId>jenkins-client</artifactId>
-      <version>0.3.7</version>
+      <version>0.3.8</version>
     </dependency>
     <!-- Override commons-beanutils, even though we don't directly depend on it,
          jenkins-client grabs it via json-lib, but an older version which copy/pasted
